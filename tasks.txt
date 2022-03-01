@@ -1,0 +1,70 @@
+Задача 1
+Select model ,  speed, hd  
+From pc  Where price < 500
+
+Задача 2
+SELECT DISTINCT maker
+FROM product
+where type='Printer'
+
+Задача 3
+select model, ram , screen 
+from laptop 
+where price > 1000
+
+Задача 4
+Select*
+from Printer
+where color = 'y'
+
+Задача 5
+Select model , speed , hd
+FROM pc
+where (cd = '12x' or cd = '24x') and price < 600
+
+Задача 6
+Select distinct maker , speed
+FROM Laptop, Product
+WHERE Laptop.model = Product.model and hd >= 10
+
+Задача 7
+Select product.model, price
+FROM product, pc
+where product.model = pc.model and maker= 'B'
+union
+Select product.model, price
+FROM product, laptop
+where product.model = laptop.model and maker= 'B'
+union
+Select product.model, price
+FROM product, printer
+where product.model = printer.model and maker= 'B'
+
+Задача 8
+Select DISTINCT product.maker
+From Product
+where product.type = 'PC' and
+product.maker not in 
+(select product.maker
+from product
+where product.type = 'Laptop')
+
+Задача 9
+Select DISTINCT maker
+from Product p, PC
+where p.model=pc.model
+and pc.speed>449
+
+Задача 10
+Select model, price
+from Printer
+Where price = (Select max(price)
+from printer)
+
+
+
+
+
+
+
+
