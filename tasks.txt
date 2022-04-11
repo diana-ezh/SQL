@@ -1,65 +1,86 @@
-Задача 1
-Select model ,  speed, hd  
-From pc  Where price < 500
+Схема БД состоит из четырех таблиц:
+Product(maker, model, type)
+PC(code, model, speed, ram, hd, cd, price)
+Laptop(code, model, speed, ram, hd, price, screen)
+Printer(code, model, color, type, price)
+Таблица Product представляет производителя (maker), номер модели (model) и тип ('PC' - ПК, 'Laptop' - ПК-блокнот или 'Printer' - принтер). 
+Предполагается, что номера моделей в таблице Product уникальны для всех производителей и типов продуктов. 
+В таблице PC для каждого ПК, однозначно определяемого уникальным кодом – code, указаны модель – model (внешний ключ к таблице Product), 
+скорость - speed (процессора в мегагерцах), объем памяти - ram (в мегабайтах), размер диска - hd (в гигабайтах), 
+скорость считывающего устройства - cd (например, '4x') и цена - price (в долларах). Таблица Laptop аналогична таблице РС за исключением того, 
+что вместо скорости CD содержит размер экрана -screen (в дюймах). В таблице Printer для каждой модели принтера указывается, является ли он цветным - color ('y', если цветной),
+тип принтера - type (лазерный – 'Laser', струйный – 'Jet' или матричный – 'Matrix') и цена - price.
 
-Задача 2
-SELECT DISTINCT maker
-FROM product
-where type='Printer'
+Задача 1. Найдите номер модели, скорость и размер жесткого диска для всех ПК стоимостью менее 500 дол. Вывести: model, speed и hd
 
-Задача 3
-select model, ram , screen 
-from laptop 
-where price > 1000
+Select model, speed, hd  
+From pc  
+Where price < 500
 
-Задача 4
+Задача 2. Найдите производителей принтеров. Вывести: maker
+
+Select distinct maker
+From product
+Where type='Printer'
+
+Задача 3. Найдите номер модели, объем памяти и размеры экранов ПК-блокнотов, цена которых превышает 1000 дол.
+
+Select model, ram, screen 
+From laptop 
+Where price > 1000
+
+Задача 4. Найдите все записи таблицы Printer для цветных принтеров.
 Select*
-from Printer
-where color = 'y'
+From printer
+Where color = 'y'
 
-Задача 5
-Select model , speed , hd
-FROM pc
-where (cd = '12x' or cd = '24x') and price < 600
+Задача 5. Найдите номер модели, скорость и размер жесткого диска ПК, имеющих 12x или 24x CD и цену менее 600 дол.
 
-Задача 6
-Select distinct maker , speed
-FROM Laptop, Product
-WHERE Laptop.model = Product.model and hd >= 10
+Select model, speed, hd
+From pc
+Where (cd = '12x' or cd = '24x') and price < 600
 
-Задача 7
+Задача 6. Для каждого производителя, выпускающего ПК-блокноты c объёмом жесткого диска не менее 10 Гбайт, 
+найти скорости таких ПК-блокнотов. Вывод: производитель, скорость.
+
+Select distinct maker, speed
+From laptop, product
+Where laptop.model = product.model and hd >= 10
+
+Задача 7. Найдите номера моделей и цены всех имеющихся в продаже продуктов (любого типа) производителя B (латинская буква).
+
 Select product.model, price
-FROM product, pc
-where product.model = pc.model and maker= 'B'
+From product, pc
+Where product.model = pc.model and maker= 'B'
 union
 Select product.model, price
-FROM product, laptop
-where product.model = laptop.model and maker= 'B'
+From product, laptop
+Where product.model = laptop.model and maker= 'B'
 union
 Select product.model, price
-FROM product, printer
-where product.model = printer.model and maker= 'B'
+From product, printer
+Where product.model = printer.model and maker= 'B'
 
-Задача 8
-Select DISTINCT product.maker
-From Product
-where product.type = 'PC' and
-product.maker not in 
-(select product.maker
-from product
-where product.type = 'Laptop')
+Задача 8. Найдите производителя, выпускающего ПК, но не ПК-блокноты.
 
-Задача 9
-Select DISTINCT maker
-from Product p, PC
-where p.model=pc.model
-and pc.speed>449
+Select distinct maker
+From product
+Where type = 'pc'
+Except
+Select distinct product.maker
+From product
+Where type = 'laptop'
 
-Задача 10
+Задача 9. Найдите производителей ПК с процессором не менее 450 Мгц. Вывести: Maker
+
+Select distinct maker
+From product JOIN pc ON product.model=pc.model
+Where pc.speed >= 450
+
+Задача 10. Найдите модели принтеров, имеющих самую высокую цену. Вывести: model, price
 Select model, price
-from Printer
-Where price = (Select max(price)
-from printer)
+From printer
+Where price = (select max (price) from printer)
 
 
 
