@@ -1,1 +1,1 @@
-# *sql* (task conditions and solutions)
+# SQL *(task conditions and solutions)
